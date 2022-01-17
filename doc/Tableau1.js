@@ -42,11 +42,16 @@ class Tableau1 extends Phaser.Scene{
             this.droite.setDisplaySize(10,90);
             this.droite.setImmovable(true);
 
+            let me = this;
+
             this.physics.add.collider(this.balle,this.bas);
             this.physics.add.collider(this.balle,this.haut);
-            this.physics.add.collider(this.balle,this.droite);
+            this.physics.add.collider(this.balle,this.droite,  function(){
+                console.log('touche droite');
+                me.rebond(me.droite)
+            });
             this.physics.add.collider(this.balle,this.gauche, function(){
-                consol.log('touche gauche');
+                console.log('touche gauche');
                 me.rebond(me.gauche)
             });
 
@@ -55,12 +60,12 @@ class Tableau1 extends Phaser.Scene{
         keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
     }
-    rebon(raquette){
+    rebond(raquette){
         let me = this;
 
-        consol.log(raquette.y);
-        consol.log(me.balle.y);
-        consol.log(me.balle.y-raquette.y)
+        console.log(raquette.y);
+        console.log(me.balle.y);
+        console.log(me.balle.y-raquette.y)
     }
 
     update(){
@@ -96,6 +101,22 @@ class Tableau1 extends Phaser.Scene{
         if (keyN.isDown)
         {
             this.droite.y += 10
+        }
+
+        //Debug
+
+        if(this.gauche.y < 0){
+            this.gauche.y = 0
+        }
+        if(this.gauche.y > this.hauteur){
+            this.gauche.y = this.hauteur
+        }
+
+        if(this.droite.y < 0){
+            this.droite.y = 0
+        }
+        if(this.droite.y > this.hauteur){
+            this.droite.y = this.hauteur -
         }
 
 
