@@ -8,45 +8,58 @@ class Tableau1 extends Phaser.Scene{
     preload (){
             this.load.image('carré', 'assets/carre.png');
             this.load.image('cercle', 'assets/cercle.png');
+            this.load.image('katana', 'assets/katana.png');
+            this.load.image('katanaJ1', 'assets/katanaJ1.png');
+            this.load.image('katanaJ2', 'assets/katanaJ2.png');
+            this.load.image('shuriken', 'assets/shuriken.png');
+            this.load.image('fond', 'assets/fond.png');
+            this.load.image('nuage', 'assets/nuage.png');
     }
     create(){
             this.hauteur = 500
             this.largeur = 1000
+            this.fond = this.add.image(0 , 0, 'fond').setOrigin(0,0);
 
 
         //mur du haut
-            this.haut = this.physics.add.image(0,0,'carré').setOrigin(0,0);
+            this.haut = this.physics.add.image(0,0,'nuage').setOrigin(0,0);
             this.haut.setDisplaySize(this.largeur,20);
             this.haut.body.setAllowGravity(false);
             this.haut.setImmovable(true);
         //mur du bas
-            this.bas = this.physics.add.image(0,this.hauteur-20,'carré').setOrigin(0,0);
+            this.bas = this.physics.add.image(0,this.hauteur-20,'nuage').setOrigin(0,0);
             this.bas.setDisplaySize(this.largeur,20);
             this.bas.body.setAllowGravity(false);
             this.bas.setImmovable(true);
         //Balle
-            this.balle = this.physics.add.image(this.largeur/2, this.hauteur/2,'cercle').setOrigin(0,0);
+            this.balle = this.physics.add.image(this.largeur/2, this.hauteur/2,'shuriken').setOrigin(0,0);
             this.balle.setDisplaySize(20,20);
             this.balle.body.setBounce(1,1);
             this.balle.setVelocityX(Phaser.Math.Between(100,-100));
             this.balle.setVelocityY(100);
             this.balle.body.setMaxVelocity(1000,1000);
         //J1
-            this.gauche = this.physics.add.image(this.largeur-995,200,'carré').setOrigin(0,0);
+            this.gauche = this.physics.add.image(this.largeur-995,200,'katanaJ1').setOrigin(0,0);
             this.gauche.body.setAllowGravity(false);
             this.gauche.setDisplaySize(10,90);
             this.gauche.setImmovable(true);
+
         //J2
-            this.droite = this.physics.add.image(this.largeur-15,200,'carré').setOrigin(0,0);
+            this.droite = this.physics.add.image(this.largeur-15,200,'katanaJ2').setOrigin(0,0);
             this.droite.body.setAllowGravity(false);
             this.droite.setDisplaySize(10,90);
             this.droite.setImmovable(true);
 
+            let me = this;
+
             this.physics.add.collider(this.balle,this.bas);
             this.physics.add.collider(this.balle,this.haut);
-            this.physics.add.collider(this.balle,this.droite);
+            this.physics.add.collider(this.balle,this.droite,  function(){
+                console.log('touche droite');
+                me.rebond(me.droite)
+            });
             this.physics.add.collider(this.balle,this.gauche, function(){
-                consol.log('touche gauche');
+                console.log('touche gauche');
                 me.rebond(me.gauche)
             });
 
@@ -55,13 +68,14 @@ class Tableau1 extends Phaser.Scene{
         keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
     }
-    rebon(raquette){
+    rebond(raquette){
         let me = this;
 
-        consol.log(raquette.y);
-        consol.log(me.balle.y);
-        consol.log(me.balle.y-raquette.y)
+        console.log(raquette.y);
+        console.log(me.balle.y);
+        console.log(me.balle.y-raquette.y)
     }
+
 
     update(){
 
@@ -96,6 +110,22 @@ class Tableau1 extends Phaser.Scene{
         if (keyN.isDown)
         {
             this.droite.y += 10
+        }
+
+        //Debug
+
+        if(this.gauche.y < 20){
+            this.gauche.y = 20
+        }
+        if(this.gauche.y > this.hauteur-100){
+            this.gauche.y = this.hauteur-100
+        }
+
+        if(this.droite.y < 20){
+            this.droite.y = 20
+        }
+        if(this.droite.y > this.hauteur-100){
+            this.droite.y = this.hauteur-100
         }
 
 
