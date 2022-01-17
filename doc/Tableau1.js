@@ -45,13 +45,24 @@ class Tableau1 extends Phaser.Scene{
             this.physics.add.collider(this.balle,this.bas);
             this.physics.add.collider(this.balle,this.haut);
             this.physics.add.collider(this.balle,this.droite);
-            this.physics.add.collider(this.balle,this.gauche);
+            this.physics.add.collider(this.balle,this.gauche, function(){
+                consol.log('touche gauche');
+                me.rebond(me.gauche)
+            });
 
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyX = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
         keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
         keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
     }
+    rebon(raquette){
+        let me = this;
+
+        consol.log(raquette.y);
+        consol.log(me.balle.y);
+        consol.log(me.balle.y-raquette.y)
+    }
+
     update(){
 
         if(this.balle.x > this.largeur){
