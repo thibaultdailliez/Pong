@@ -114,19 +114,7 @@ class Tableau1 extends Phaser.Scene{
 
         //Debug
 
-        if(this.gauche.y < 20){
-            this.gauche.y = 20
-        }
-        if(this.gauche.y > this.hauteur-100){
-            this.gauche.y = this.hauteur-100
-        }
 
-        if(this.droite.y < 20){
-            this.droite.y = 20
-        }
-        if(this.droite.y > this.hauteur-100){
-            this.droite.y = this.hauteur-100
-        }
 
 
     }
